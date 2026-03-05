@@ -100,7 +100,9 @@ for (let i = 0; i < 10; i++) {
   setTimeout(createHeart, Math.random() * 3000);
 }
 
-setInterval(createHeart, 400);
+// Reduce heart creation on mobile for better performance
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+setInterval(createHeart, isMobile ? 800 : 400);
 
 const btnLetter = document.getElementById("btn-letter");
 const letterOverlay = document.getElementById("letter-overlay");
@@ -314,29 +316,52 @@ function makeDraggable(element) {
   let startX;
   let scrollLeft;
 
+  // Mouse events
   element.addEventListener("mousedown", (e) => {
     isDown = true;
     element.style.cursor = "grabbing";
-    element.querySelector(".gallery-row").style.animationPlayState = "paused";
+    const rows = element.querySelectorAll(".gallery-row");
+    rows.forEach((row) => (row.style.animationPlayState = "paused"));
   });
 
   window.addEventListener("mouseup", () => {
     isDown = false;
     element.style.cursor = "grab";
-    const row = element.querySelector(".gallery-row");
-    if (row) row.style.animationPlayState = "running";
+    const rows = element.querySelectorAll(".gallery-row");
+    rows.forEach((row) => (row.style.animationPlayState = "running"));
   });
 
   element.addEventListener("mouseleave", () => {
     isDown = false;
-    const row = element.querySelector(".gallery-row");
-    if (row) row.style.animationPlayState = "running";
+    const rows = element.querySelectorAll(".gallery-row");
+    rows.forEach((row) => (row.style.animationPlayState = "running"));
   });
+
+  // Touch events for mobile
+  element.addEventListener(
+    "touchstart",
+    (e) => {
+      const rows = element.querySelectorAll(".gallery-row");
+      rows.forEach((row) => (row.style.animationPlayState = "paused"));
+    },
+    { passive: true },
+  );
+
+  element.addEventListener(
+    "touchend",
+    () => {
+      const rows = element.querySelectorAll(".gallery-row");
+      rows.forEach((row) => (row.style.animationPlayState = "running"));
+    },
+    { passive: true },
+  );
 }
 
 btnImage.addEventListener("click", () => {
   populateGallery();
   imageOverlay.classList.add("active");
+  const galleryContainer = document.querySelector(".gallery-container");
+  makeDraggable(galleryContainer);
 });
 
 const btnGift = document.getElementById("btn-gift");
