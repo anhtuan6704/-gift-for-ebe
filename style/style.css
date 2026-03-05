@@ -709,12 +709,20 @@ body::before {
 
 @media (max-width: 480px) {
   .image-modal {
-    height: 500px;
+    height: 80vh;
+    max-height: 550px;
+    padding: 30px 15px;
+    width: 95%;
   }
 
   .gallery-row img {
-    height: 140px;
-    width: 110px;
+    height: 130px;
+    width: 100px;
+    margin-right: 15px;
+  }
+
+  .gallery-container {
+    gap: 20px;
   }
 
   .gallery-gif-wrapper.top {
@@ -728,19 +736,22 @@ body::before {
   }
 
   .gallery-gif {
-    width: 40px !important;
+    width: 60px !important;
   }
 
   .gallery-gif-wrapper.bottom .gallery-gif {
-    width: 100px !important;
+    width: 80px !important;
   }
 
   .gallery-gif-wrapper.top .gallery-gif {
-    width: 100px !important;
+    width: 80px !important;
   }
 
   .flying-text {
-    font-size: 0.8rem !important;
+    font-size: 0.7rem !important;
+    white-space: normal !important;
+    max-width: 120px;
+    line-height: 1.2;
   }
 }
 
@@ -784,6 +795,9 @@ body::before {
   color: #ff1493;
   text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
 }
 
 .text-right {
